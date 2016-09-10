@@ -233,9 +233,7 @@ function insert_tournament($dbh, $tournamentname, $startdate, $enddate, $format,
 		)";
 
 		$stmt = $dbh->getInstance()->prepare($sql);
-		//timestamp fields are passed NULL so that MYSQL will auto populate them properly
-		$created = NULL;
-		$modified = NULL;
+
 
 		$stmt->bindParam(':tournamentname', $tournamentname, PDO::PARAM_STR);       
 		$stmt->bindParam(':startdate', $startdate); 
@@ -253,6 +251,51 @@ function insert_tournament($dbh, $tournamentname, $startdate, $enddate, $format,
 	}
 }
 
+//function find_all_tournaments
+//args: database connection
+//returns: an array of rows containing all tournament data
+function find_all_tournaments($dbh){
+	try{
+		$sql = 'SELECT * FROM tournament
+				ORDER BY id';
+				
+		$stmt = $dbh->getInstance()->prepare($sql);
+		$stmt->execute();
+		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		return $results;	
+	} catch(PDOException $e) {
+		echo $e;
+	}
+}
+
+//function insert_league
+//args: db connection, email address, owners desired user name and (hashed)password
+//returns: nothing
+function insert_league($dbh, $leaguename, $tournamentid){
+	try {
+		$sql = "INSERT INTO league(
+			name, 
+			tournament_id
+		) 
+		VALUES(
+			:leaguename, 
+			:tournamentid
+		)";
+
+		$stmt = $dbh->getInstance()->prepare($sql);
+
+
+		$stmt->bindParam(':leaguename', $leaguename, PDO::PARAM_STR);       
+		$stmt->bindParam(':tournamentid', $tournamentid, PDO::PARAM_STR); 
+
+		$stmt->execute();
+		return true;
+
+	} 
+	catch(PDOException $e) {
+		echo $e;
+	}
+}
 
 
 ?>

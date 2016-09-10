@@ -12,7 +12,6 @@ if ($dbh->getInstance() === null) {
 ?>
 
 <?php
-$username = "";
 
 
 if (isset($_POST['submit'])) {
