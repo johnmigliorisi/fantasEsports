@@ -50,7 +50,7 @@ if (isset($_POST['submit'])) {
         <div id="loginbox" style="margin-top:50px;" class="col-md-4 col-md-offset-3 col-sm-8 col-sm-offset-2">
             <form method="post" id="loginform" class="form-horizontal" data-toggle="validator" role="form" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                 <label>User Name</label>           
-                <input id="login-username" type="text" class="form-control" name="username" value="<?php echo htmlentities($username) ?>" placeholder="make it cool" required>  
+                <input id="login-username" type="text" class="form-control" name="username" value="<?php echo htmlentities($username) ?>" placeholder="<?php echo htmlentities($username) ?>" required>  
                  <label>Password</label>                                         
                 <input id="login-password" type="password" class="form-control" name="password" placeholder="password"  required>
                 <button type="submit" class="btn btn-success" name="submit" value="login">Login</button> 

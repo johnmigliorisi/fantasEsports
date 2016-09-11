@@ -271,21 +271,23 @@ function find_all_tournaments($dbh){
 //function insert_league
 //args: db connection, email address, owners desired user name and (hashed)password
 //returns: nothing
-function insert_league($dbh, $leaguename, $tournamentid){
+function insert_league($dbh, $leaguename, $num_teams, $tournamentid){
 	try {
 		$sql = "INSERT INTO league(
 			name, 
+			num_teams,
 			tournament_id
 		) 
 		VALUES(
 			:leaguename, 
+			:num_teams,
 			:tournamentid
 		)";
 
 		$stmt = $dbh->getInstance()->prepare($sql);
 
-
-		$stmt->bindParam(':leaguename', $leaguename, PDO::PARAM_STR);       
+		$stmt->bindParam(':leaguename', $leaguename, PDO::PARAM_STR);    
+		$stmt->bindParam(':num_teams', $num_teams, PDO::PARAM_STR);     
 		$stmt->bindParam(':tournamentid', $tournamentid, PDO::PARAM_STR); 
 
 		$stmt->execute();
@@ -297,5 +299,52 @@ function insert_league($dbh, $leaguename, $tournamentid){
 	}
 }
 
+//function find_all_leagues
+//args: database connection
+//returns: an array of rows containing all tournament data
+function find_all_leagues($dbh){
+	try{
+		$sql = 'SELECT * FROM league
+				ORDER BY id';
+				
+		$stmt = $dbh->getInstance()->prepare($sql);
+		$stmt->execute();
+		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		return $results;	
+	} catch(PDOException $e) {
+		echo $e;
+	}
+}
+
+//function insert_fantasy_team
+//args: db connection, email address, owners desired user name and (hashed)password
+//returns: nothing
+function insert_fantasy_team($dbh, $teamname, $owner_id, $leagueid){
+	try {
+		$sql = "INSERT INTO fantasy_team(
+			name, 
+			owner_id,
+			league_id
+		) 
+		VALUES(
+			:teamname, 
+			:owner_id,
+			:league_id
+		)";
+
+		$stmt = $dbh->getInstance()->prepare($sql);
+
+		$stmt->bindParam(':teamname', $teamname, PDO::PARAM_STR);    
+		$stmt->bindParam(':owner_id', $owner_id, PDO::PARAM_STR);     
+		$stmt->bindParam(':league_id', $leagueid, PDO::PARAM_STR); 
+
+		$stmt->execute();
+		return true;
+
+	} 
+	catch(PDOException $e) {
+		echo $e;
+	}
+}
 
 ?>
