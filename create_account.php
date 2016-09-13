@@ -45,7 +45,7 @@ if (isset($_POST['submit'])) {
 <body>
     <div class="container">    
         <div id="loginbox" style="margin-top:50px;" class="col-md-4 col-md-offset-3 col-sm-8 col-sm-offset-2">
-            <form method="post" id="loginform" class="form-horizontal" data-toggle="validator" role="form" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+            <form method="post" id="createaccount" class="form-horizontal" data-toggle="validator" role="form" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                 <label for="username">User Name</label>           
                     <input type="text" data-minlength="2" class="form-control" name="username" value="<?php echo htmlentities($username) ?>" placeholder="Minimum of 2 characters" required>  
                 
