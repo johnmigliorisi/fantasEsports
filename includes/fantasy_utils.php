@@ -1,6 +1,11 @@
 <?php
 // add a generic error display function
 
+/* ----------------------------------------------------*/
+/* ------------------- User Mgmt ----------------------*/
+/* ----------------------------------------------------*/
+
+
 //function attempt_login()
 //args: $dbh, $username, $password
 //return: user_id or false
@@ -68,6 +73,10 @@ function hash_password($password){
     $hash = password_hash($password, PASSWORD_BCRYPT);
     return $hash;
 }
+
+/* ----------------------------------------------------*/
+/* -------------------- Owners ------------------------*/
+/* ----------------------------------------------------*/
 
 
 //function create_account()
@@ -208,7 +217,9 @@ function delete_owner($dbh, $id){
 	}
 }
 
-
+/* ----------------------------------------------------*/
+/* ------------------ Tournaments ---------------------*/
+/* ----------------------------------------------------*/
 
 //function insert_tournament
 //args: db connection, $tournamentname, $startdate, $enddate, $format, $tournamentadmin, $tournamentadminemail
@@ -268,8 +279,15 @@ function find_all_tournaments($dbh){
 	}
 }
 
+
+/* ----------------------------------------------------*/
+/* -------------------- Leagues -----------------------*/
+/* ----------------------------------------------------*/
+
+
+
 //function insert_league
-//args: db connection, email address, owners desired user name and (hashed)password
+//args: db connection, league name, number of teams, tournament id
 //returns: nothing
 function insert_league($dbh, $leaguename, $num_teams, $tournamentid){
 	try {
@@ -316,8 +334,14 @@ function find_all_leagues($dbh){
 	}
 }
 
+
+/* ----------------------------------------------------*/
+/* ---------------- Fantasy Teams ---------------------*/
+/* ----------------------------------------------------*/
+
+
 //function insert_fantasy_team
-//args: db connection, email address, owners desired user name and (hashed)password
+//args: db connection, team name, owner_id, league_id
 //returns: nothing
 function insert_fantasy_team($dbh, $teamname, $owner_id, $leagueid){
 	try {
@@ -346,5 +370,102 @@ function insert_fantasy_team($dbh, $teamname, $owner_id, $leagueid){
 		echo $e;
 	}
 }
+/* ----------------------------------------------------*/
+/* -------------------- Players -----------------------*/
+/* ----------------------------------------------------*/
+
+//function find_all_players
+//args: database connection
+//returns: an array of rows containing owner data
+function find_all_players($dbh){
+	try{
+		$sql = 'SELECT * FROM player
+				ORDER BY id';
+				
+		$stmt = $dbh->getInstance()->prepare($sql);
+		$stmt->execute();
+		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		return $results;	
+	} catch(PDOException $e) {
+		echo $e;
+	}
+}
+
+//function find_player_by_name()
+//args: db obj, username
+//returns: id
+function find_player_by_name($dbh, $username){
+	try{
+		$sql = 'SELECT id FROM player
+				WHERE player_name
+				LIKE :playername';
+				
+		$stmt = $dbh->getInstance()->prepare($sql);
+
+		$stmt->bindParam(':playername', $playername, PDO::PARAM_STR); 
+
+		$stmt->execute();
+		$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+		return $results;	
+	} catch(PDOException $e) {
+		echo $e;
+	}
+}
+//function insert_player
+//args: db connection, player name, tag, bio , path to pic, and ranking (1-100)
+//returns: nothing
+function insert_player($dbh, $playerName, $playerTag, $bio, $playerPic, $ranking){
+	try {
+		$sql = "INSERT INTO player(
+			player_name, 
+			player_tag,
+			created,
+			modified,
+			bio,
+			image,
+			ranking
+		) 
+		VALUES(
+			:player_name, 
+			:player_tag,
+			:created,
+			:modified,
+			:bio,
+			:image,
+			:ranking
+		)";
+
+		$stmt = $dbh->getInstance()->prepare($sql);
+
+		//timestamp fields are passed NULL so that MYSQL will auto populate them properly
+		$created = NULL;
+		$modified = NULL;
+
+		$stmt->bindParam(':player_name', $playerName, PDO::PARAM_STR);    
+		$stmt->bindParam(':player_tag', $playerTag, PDO::PARAM_STR);   
+		$stmt->bindParam(':created', $created);
+		$stmt->bindParam(':modified', $modified);  
+		$stmt->bindParam(':bio', $bio, PDO::PARAM_STR); 
+		$stmt->bindParam(':image', $playerPic, PDO::PARAM_STR); 
+		$stmt->bindParam(':ranking', $ranking, PDO::PARAM_STR); 
+
+		$stmt->execute();
+		return true;
+
+	} 
+	catch(PDOException $e) {
+		echo $e;
+	}
+}
+
+/* ----------------------------------------------------*/
+/* ---------------- Image Handling --------------------*/
+/* ----------------------------------------------------*/
+
+// need list of whitelisted extensions and maz file size check
+
+//need uploader function that verifies the file before uploading it
+
+
 
 ?>
