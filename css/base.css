@@ -1,0 +1,16 @@
+/*fantasy base styles*/
+html {
+  font-family: sans-serif;
+  -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+}
+.flex-container {
+	display: flex;
+	height: 200px;
+	border: 1px black solid;
+}
+.flex-container h1 {
+	width: 100%;
+	margin: auto;
+	border: 1px black solid;
+}

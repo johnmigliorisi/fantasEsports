@@ -22,23 +22,13 @@ if (isset($_POST['submit'])) {
     $ranking = $_POST["rank"];
 
 
-    //upload the image file
-    //first you have to set where you want to store files
-    //in this image upload script we keep file in folder upload
-    //$_FILES['ufile']['name']; = upload file name
-    //for example upload file name click4knowledge.gif . $path will be upload/click4knowledge.gif
-     
+    //upload the image file  
     $path = "Player_pictures/".$_FILES['playerPic']['name'];
     if($_FILES['playerPic']['name'] != "")
     {
     if(copy($_FILES['playerPic']['tmp_name'], $path))
     {
     echo "Successful<BR/>";
-    // print uploaded data after successful upload
-    echo "File Name :".$_FILES['playerPic']['name']."<BR/>";
-    echo "File Size :".$_FILES['playerPic']['size']."<BR/>";
-    echo "File Type :".$_FILES['playerPic']['type']."<BR/>";
-    echo "<img src=\"$path\" width=\"150\" height=\"150\">";
     }
     else
     {
