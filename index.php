@@ -1,3 +1,6 @@
+<?php
+require_once('includes/loader.php');
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +11,7 @@
 <body>
 
 <header class="flex-header">
-	<div class="flex-name"><h1>The Boom Boom Room</h1></div>
+	<div class="flex-name"><h1>The HOC/SOL/MHK Fantasy sports spot</h1></div>
 	<div class="flex-nav">
 		<div class=""><a href="">Leagues</a></div>
 		<div class=""><a href="">My Teams</a></div>

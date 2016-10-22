@@ -5,6 +5,14 @@
 /* ------------------- User Mgmt ----------------------*/
 /* ----------------------------------------------------*/
 
+//function is_logged_in()
+//args none
+//return boolean
+function is_logged_in(){
+	$loggedIn = (isset($_SESSION["user_id"]) ? true : false); 
+	//echo "<p>is_logged_in says: " . $loggedIn . "</p>";
+		return $loggedIn;
+}
 
 //function attempt_login()
 //args: $dbh, $username, $password
@@ -462,9 +470,9 @@ function insert_player($dbh, $playerName, $playerTag, $bio, $playerPic, $ranking
 /* ---------------- Image Handling --------------------*/
 /* ----------------------------------------------------*/
 
-// need list of whitelisted extensions and maz file size check
+// need a max file size check
 
-//need uploader function that verifies the file before uploading it
+
 
 
 

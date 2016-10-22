@@ -1,14 +1,5 @@
 <?php
-require_once('includes/session.php');
-require_once('includes/class_dbhandler.php');
-require_once('includes/fantasy_utils.php');
-// Create needed objects
-$dbh = new DBHandler();
-
-// Check if database connection established successfully
-if ($dbh->getInstance() === null) {
-    die("No database connection");
-}
+require_once('includes/loader.php');
 ?>
 
 <?php
@@ -80,7 +71,7 @@ if (isset($_POST['submit'])) {
                     <input type="text" class="form-control" name="rank" value="" placeholder="" required> 
 
                 <label for="playerPic">Player Picture</label>   
-                    <input type="file" class="form-control" name="playerPic" />
+                    <input type="file" accepts="image/*" class="form-control" name="playerPic" />
                     
                                      
                 <button type="submit" class="btn btn-success" name="submit" value="addplayer">Add Player</button>

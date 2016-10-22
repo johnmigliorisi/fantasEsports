@@ -1,16 +1,5 @@
 <?php
-
-// Require needed classes
-require_once('includes/class_dbhandler.php');
-require_once('includes/fantasy_utils.php');
-
-// Create needed objects
-$dbh = new DBHandler();
-
-// Check if database connection established successfully
-if ($dbh->getInstance() === null) {
-    die("No database connection");
-}
+require_once('includes/loader.php');
 ?>
 
 <!DOCTYPE html>

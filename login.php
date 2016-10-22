@@ -9,25 +9,24 @@ $dbh = new DBHandler();
 if ($dbh->getInstance() === null) {
     die("No database connection");
 }
-?>
 
-<?php
+
 $username = "";
 
 
-if (isset($_POST['submit'])) {
-    // Process the form
-	$username = $_POST["username"];
-	$password = $_POST["password"];
-    //attempt login
-    $login = attempt_login($dbh, $username, $password);
-    if($login === true){
-        echo "<p>Welcome " . $_SESSION["username"] . "</p>";
-    } else {
-        // Tell them to try again
-        echo "<p class='warning'>User Name / Password not recognized. Please try again.</p>";
-    }
-}  // end: if (isset($_POST['submit']))
+    if (isset($_POST['submit'])) {
+        // Process the form
+    	$username = $_POST["username"];
+    	$password = $_POST["password"];
+        //attempt login
+        $login = attempt_login($dbh, $username, $password);
+        if($login === true){
+            header('Location: http://www.downlevelseven.com/fantasy/index.php');
+        } else {
+            // Tell them to try again
+            echo "<p class='warning'>User Name / Password not recognized. Please try again.</p>";
+        }
+    }  // end: if (isset($_POST['submit']))
 
 ?>
 <!DOCTYPE html>

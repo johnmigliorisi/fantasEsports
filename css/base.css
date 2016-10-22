@@ -1,16 +1,108 @@
-/*fantasy base styles*/
+*, *:before, *:after {
+	box-sizing: inherit;
+}
 html {
   font-family: sans-serif;
   -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
+  box-sizing: border-box;
 }
-.flex-container {
-	display: flex;
-	height: 200px;
-	border: 1px black solid;
+body{
+	margin: 0;
+	padding: 0;
 }
-.flex-container h1 {
-	width: 100%;
-	margin: auto;
-	border: 1px black solid;
+.flex-header {
+    display: -webkit-flex;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 60px;
+    line-height: 60px;
+    flex-wrap: wrap;
+    background-color: black;
+    margin: auto;
+}
+
+.flex-nav {
+	display: -webkit-flex;
+    display: flex;
+    justify-content: flex-end;
+	flex-wrap: wrap;
+    width: 310px;
+    margin: 0;
+    height: 60px;
+}
+.flex-nav div{
+    background-color: orange;
+    width: 100px;
+    margin: 0;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    border-right: 2px #333 solid;
+    font-family: 'Ruda', sans-serif;
+}
+.flex-nav:first-child {
+	border-left: 2px #333 solid;
+}
+.flex-nav:last-child{
+	border-right: none;
+}
+div.flex-nav a {
+	color: white;
+	line-height: 1.5;
+	text-decoration: none;
+}
+div.flex-nav a:hover {
+	color: black;
+	line-height: 1.5;
+	text-decoration: none;
+}
+.flex-name {
+	background-color: transparent;
+    width: 430px;
+    margin: 0;
+    padding: 0;
+    height: 60px;
+    line-height: 1;
+    text-align: left;
+    flex: -1;
+    font-family: 'Bree Serif', serif;
+}
+.flex-name h1 {
+	color: white;
+	font-size: 4em;
+	margin-top:0px;
+	padding: 0;
+}
+.flex-hero {
+    display: -webkit-flex;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 200px;
+    background-color: blue;
+    margin: auto;
+}
+
+.flex-main {
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    width: 80%;
+    height: 80vh;
+    line-height: 10vh;
+    background-color: white;
+    margin: auto;
+}
+.flex-main-aside{
+
+}
+.flex-main-article {
+
+}
+.flex-footer {
+
 }
