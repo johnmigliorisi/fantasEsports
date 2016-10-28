@@ -13,11 +13,8 @@ $leagueList = find_all_leagues($dbh);
 
 </head>
 <body>
-<header class="super-header">
-<p>Welcome <?php echo $_SESSION["username"]; ?> </p>
-</header>
 <header class="flex-header">
-	<div class="flex-name"><h1>The HOC/SOL/MHK Fantasy E-Sports spot</h1></div>
+	<div class="flex-name"><h1>For Teh Win!</h1></div>
 	<div class="flex-nav">
 		<div class=""><a href="">Leagues</a></div>
 		<div class=""><a href="">My Teams</a></div>
@@ -33,7 +30,7 @@ $leagueList = find_all_leagues($dbh);
 </article>
 <aside class="flex-main-aside">
 	<div class="aside-card">
-		<h3>Current Tournaments</h3>
+		<h3>Tournaments</h3>
 		<ul>
 		<?php foreach ($tourneyList as $row) { ?>
 			<li><?php echo $row['tournament_name']; ?></li>
@@ -41,12 +38,17 @@ $leagueList = find_all_leagues($dbh);
 		</ul>
 	</div>
 	<div class="aside-card">
-		<h3>Current Leagues</h3>
+		<h3>Leagues</h3>
+		<ul>
+		<?php foreach ($leagueList as $row) { ?>
+			<li><?php echo $row['name']; ?></li>
+		<?php } ?>
+		</ul>
 	</div>
 </aside>
 </main>
 <footer>
-<h3>The HOC/SOL/MHK Fantasy E-Sports spot</h3>
+<h3>For Teh Win! - An HOC/SOL/MHK Fantasy E-Sports spot</h3>
 </footer>
 </body>
 </html>

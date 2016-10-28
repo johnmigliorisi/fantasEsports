@@ -6,12 +6,14 @@ html {
   -webkit-text-size-adjust: 100%;
       -ms-text-size-adjust: 100%;
   box-sizing: border-box;
+  height: 100%;
+  margin: 0;
 }
 body {
 	margin: 0;
 	padding: 0;
     background: #FFF url('../images/triangular.png') repeat;
-    
+    height: 100%;
 }
 .redish {
     background-color: #ff002b;
@@ -99,8 +101,8 @@ main {
     margin: auto;
     margin-top: 0;
     background-color: #F5F5F5;
-    padding-bottom: 50px;
     min-height: 100%;
+    padding-bottom: 50px;
 }
 .flex-main {
     display: -webkit-flex;
@@ -142,6 +144,8 @@ footer {
     background-color: #242423;
     height: 50px;
     margin-top: -50px;
+    color: #F5F5F5;
+    font-family: 'Merriweather', serif;
 }
 .flex-footer {
     display: -webkit-flex;
@@ -150,4 +154,5 @@ footer {
     flex-wrap: wrap;
     justify-content: space-between;
     margin: auto;
+
 }
