@@ -15,11 +15,11 @@ class Tournament
     */
     private $tournamentname
     /**
-    * @var string
+    * @var timestamp
     */
     private $startdate
     /**
-    * @var string
+    * @var timestamp
     */
     private $enddate
     /**
@@ -35,12 +35,17 @@ class Tournament
     */
     private $tournamentadminemail
 
-    /*
-	* function insert_tournament
-	* args: db connection, $tournamentname, $startdate, $enddate, $format, $tournamentadmin, $tournamentadminemail
+    /**
+	* creates a new tournament record
+	* @param $tournamentname 
+	* @param $startdate
+	* @param $enddate
+	* @param $format
+	* @param $tournamentadmin
+	* @param $tournamentadminemail
 	* returns: boolean
 	*/
-	public function insert_tournament($dbh, $tournamentname, $startdate, $enddate, $format, $tournamentadmin, $tournamentadminemail){
+	public function insert_tournament($tournamentname, $startdate, $enddate, $format, $tournamentadmin, $tournamentadminemail){
 		try {
 			$sql = "INSERT INTO tournament(
 				tournament_name, 
@@ -59,8 +64,8 @@ class Tournament
 				:tournamentadminemail
 			)";
 
+			$dbh = new DBHandler();
 			$stmt = $dbh->getInstance()->prepare($sql);
-
 
 			$stmt->bindParam(':tournamentname', $tournamentname, PDO::PARAM_STR);       
 			$stmt->bindParam(':startdate', $startdate); 
@@ -79,16 +84,16 @@ class Tournament
 		}
 	}
 
-	/*
+	/**
 	* function find_all_tournaments
-	* args: database connection
-	* returns: an array of rows containing all tournament data
+	* returns object
 	*/
-	public function find_all_tournaments($dbh){
+	public function find_all_tournaments(){
 		try{
 			$sql = 'SELECT * FROM tournament
 					ORDER BY id';
-					
+			
+			$dbh = new DBHandler();		
 			$stmt = $dbh->getInstance()->prepare($sql);
 			$stmt->execute();
 			$results = $stmt->fetchAll(PDO::FETCH_ASSOC);

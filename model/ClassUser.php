@@ -35,7 +35,8 @@ class User
     */
     private $modified;
 	
-    /*function is_logged_in()
+    /**
+    * verifies if a given user is already logged in
     * args none
     * return boolean
     */
@@ -45,15 +46,16 @@ class User
 		return $loggedIn;
     }
 
-    /* 
-    *function attempt_login()
-    *args: $dbh, $username, $password
-    *return: user_id or false
+    /** 
+    * verify submitted credentials and log valid users in to the app
+    * @param $username owner_name
+    * @param $password password
+    * return: user_id or false
     */
-    public function attempt_login($dbh, $username, $password)
+    public function attempt_login($username, $password)
     {
 	//verify username exists
-	    $resultFindOwner = find_owner_by_name($dbh, $username);
+	    $resultFindOwner = find_owner_by_name($username);
 	    if (!$resultFindOwner){
 		    return false;
 	    } else {
@@ -62,7 +64,7 @@ class User
 		    }
 	    }
 	    //now check the password
-	    $legit = password_check($dbh, $user_id, $password);
+	    $legit = password_check($user_id, $password);
 	    if(!$legit){
 		    return false;
 	    } else {
@@ -72,18 +74,20 @@ class User
 	    }
     }
 
-    /*
-    * function password_check()
-    * args: db obj, user_id, password
+    /**
+    * confirm validity of a submitted password
+    * @param $user_id id 
+    * @param $password password
     * return boolean
     */
-    public function password_check($dbh, $user_id, $password){
+    public function password_check($user_id, $password){
         //first grab the hashed pw from the db
 	    try {
 		    $sql = 'SELECT password FROM owner
 				    WHERE id
 				    LIKE :id';
 
+			$dbh = new DBHandler();	
 		    $stmt = $dbh->getInstance()->prepare($sql);
 
 		    $stmt->bindParam(':id', $user_id, PDO::PARAM_STR); 
@@ -110,9 +114,9 @@ class User
 	    }
     }
 
-    /*
-    * function hash_password()
-    * args: password
+    /**
+    * hash an unencrypted password
+    * @param $password password
     * returns $hash
     */
     public function hash_password($password){
@@ -120,37 +124,40 @@ class User
         return $hash;
     }
 
-    /*
-	* function create_account()
-	* args db obj, desired username, email and password
+    /**
+	* create a new user record
+	* @param $email email
+	* @param $username owner_name
+	* @param $password password
 	* returns string
 	*/
-	public function create_account($dbh, $username, $email, $password){
+	public function create_account($username, $email, $password){
 		//first make sure the user name (owner name) doesn't already exist
-	    $isNameTaken = find_owner_by_name($dbh, $username);
+	    $isNameTaken = find_owner_by_name($username);
 	    if ($isNameTaken){
 	    	$creationMessage = "User Name taken, try again";
 	    	return $creationMessage;
 	    } else {
 	    	//hash the password and create the record
 	    	$hashed = hash_password($password);
-	    	$created = insert_owner($dbh, $email, $username, $hashed);
+	    	$created = insert_owner($email, $username, $hashed);
 	    	$creationMessage = "Welcome " . $username;
 	    	return $creationMessage;
 	    }
 	}
 
-	/*
-	* function find_owner_by_name()
-	* args: db obj, username
+	/**
+	* find a specific user
+	* @param $username owner_name
 	* returns object
 	*/
-	public function find_owner_by_name($dbh, $username){
+	public function find_owner_by_name($username){
 		try{
 			$sql = 'SELECT id FROM owner
 					WHERE owner_name
 					LIKE :username';
-					
+			
+			$dbh = new DBHandler();			
 			$stmt = $dbh->getInstance()->prepare($sql);
 
 			$stmt->bindParam(':username', $username, PDO::PARAM_STR); 
@@ -164,16 +171,16 @@ class User
 		}
 	}
 
-	/*
-	* function find_all_owners
-	* args: database connection
+	/**
+	* obtain list of all user records
 	* returns object
 	*/
-	public function find_all_owners($dbh){
+	public function find_all_owners(){
 		try{
 			$sql = 'SELECT * FROM owner
 					ORDER BY id';
-					
+			
+			$dbh = new DBHandler();			
 			$stmt = $dbh->getInstance()->prepare($sql);
 			$stmt->execute();
 			$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -184,12 +191,14 @@ class User
 		}
 	}
 
-	/*
-	* function insert_owner
-	* args: db connection, email address, owners desired user name and (hashed)password
+	/**
+	* insert a new user record
+	* @param $email email
+	* @param $username owner_name
+	* @param $password password
 	* returns boolean
 	*/
-	public function insert_owner($dbh, $email, $username, $password){
+	public function insert_owner($email, $username, $password){
 		try {
 			$sql = "INSERT INTO owner(
 				email, 
@@ -206,6 +215,7 @@ class User
 				:modified
 			)";
 
+			$dbh = new DBHandler();	
 			$stmt = $dbh->getInstance()->prepare($sql);
 			//timestamp fields are passed NULL so that MYSQL will auto populate them properly
 			$created = NULL;
@@ -229,26 +239,30 @@ class User
 		}
 	}
 
-	/*
-	* function update_owner
-	* args: db connection, email address, owners desired user name and (hashed)password
+	/**
+	* update a user record
+	* @param $email email
+	* @param $username owner_name
+	* @param $password password
+	* @param $id id
 	* returns nothing
 	*/
-	public function update_owner($dbh, $email, $owner_name, $password, $id){
+	public function update_owner($email, $username, $password, $id){
 		try {
 			$sql = "Update owner SET
 				email = :email, 
-				owner_name = :owner_name, 
+				owner_name = :user_name, 
 				password = :password,
 				modified = :modified
 				WHERE id LIKE :owner_id";
 
+			$dbh = new DBHandler();	
 			$stmt = $dbh->getInstance()->prepare($sql);
 			//timestamp fields are passed NULL so that MYSQL will auto populate them properly
 			$modified = NULL;
 
 			$stmt->bindParam(':email', $email, PDO::PARAM_STR);       
-			$stmt->bindParam(':owner_name', $owner_name, PDO::PARAM_STR); 
+			$stmt->bindParam(':user_name', $username, PDO::PARAM_STR); 
 			$stmt->bindParam(':password', $password, PDO::PARAM_STR);   
 			$stmt->bindParam(':modified', $modified);
 			$stmt->bindParam(':owner_id', $id);
@@ -262,16 +276,17 @@ class User
 		}
 	}
 
-	/*
-	* function delete_owner
-	* args: db connection, id
+	/**
+	* delete a user record
+	* @param $id id
 	* returns nothing
 	*/
-	public function delete_owner($dbh, $id){
+	public function delete_owner($id){
 		try{
 			$sql = 'DELETE FROM owner
 					WHERE id LIKE :owner_id';
-					
+			
+			$dbh = new DBHandler();		
 			$stmt = $dbh->getInstance()->prepare($sql);
 			$stmt->bindParam(':owner_id', $id);
 			$stmt->execute();	
