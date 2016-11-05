@@ -87,7 +87,7 @@ class User
 				    WHERE id
 				    LIKE :id';
 
-			$dbh = new DBHandler();	
+			$dbh = new DBHandler();
 		    $stmt = $dbh->getInstance()->prepare($sql);
 
 		    $stmt->bindParam(':id', $user_id, PDO::PARAM_STR); 
@@ -147,7 +147,7 @@ class User
 	}
 
 	/**
-	* find a specific user
+	* deprecate this if find_owners works
 	* @param $username owner_name
 	* returns object
 	*/
@@ -172,16 +172,24 @@ class User
 	}
 
 	/**
-	* obtain list of all user records
+	* obtain list of all user records or a specific user record
 	* returns object
 	*/
-	public function find_all_owners(){
-		try{
-			$sql = 'SELECT * FROM owner
-					ORDER BY id';
-			
+	public function find_owners($id = null){
+		
+		$sql = 'SELECT * FROM owner
+				ORDER BY id';
+		if (is_int($id)) {
+            $sql .= " WHERE id = :user_id";
+        }
+		
+
+		try{	
 			$dbh = new DBHandler();			
 			$stmt = $dbh->getInstance()->prepare($sql);
+			if (is_int($id)) {
+            	$stmt->bindParam(':user_id', $id, PDO::PARAM_STR); 
+        	}
 			$stmt->execute();
 			$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 			return $results;	
