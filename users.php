@@ -1,6 +1,4 @@
 <?php
-require('includes/loader.php');
-
 
 require('controllers/UserController.php');
 
@@ -25,10 +23,6 @@ $users = $userObj->find();
 </header>
 <main class="flex-main">
 <article class="flex-main-article">
-<h2>What's the Haps?</h2>
-	<p>Sooo, during the 2016 HOC Winter Tournament a group of us were hanging out spectating a match, discussing all manner of important and adult topics, when Hockeyplaya and Nolja hit upon the idea of running a fantasy league based on our UT tournaments. How cool would that be right? We would often have around 20 people spectating matches so why not take it up a notch?</p>
-	<p>Here we will be able to run fantasy leagues across all of our UT communities. We are able to set up tournaments, define the list of participating players and set up leagues based on them. Team owners will be able to draft and manage their teams and play against each other in typical fantasy sports style.</p>
-	<p>For the moment scoring is going to be pretty manual until I figure out how to automate it. Maybe one of the awesome coders out there will help me get that part in place.</p>
 	<?php if ($users): ?>
         <ul>
             <?php foreach ($users as $user): ?>

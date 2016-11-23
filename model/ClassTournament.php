@@ -85,6 +85,7 @@ class Tournament
 	}
 
 	/**
+	* deprecate this if find_tournaments works
 	* function find_all_tournaments
 	* returns object
 	*/
@@ -103,4 +104,37 @@ class Tournament
 	        exit;
 		}
 	}
+
+	/**
+	* function find_tournaments
+	* returns object
+	*/
+	public function find_tournaments($id = null){
+		
+		$sql = 'SELECT * FROM tournament
+					ORDER BY id';
+		if (is_int($id)) {
+            $sql .= " WHERE id = :id";
+        }
+
+		try{	
+			$dbh = new DBHandler();			
+			$stmt = $dbh->getInstance()->prepare($sql);
+			if (is_int($id)) {
+            	$stmt->bindParam(':id', $id, PDO::PARAM_STR); 
+        	}
+			$stmt->execute();
+			$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			return $results;	
+		} catch(PDOException $e) {
+			echo $e->getMessage();
+            exit;
+		}
+	}
+
+
+
+
+
+
 }

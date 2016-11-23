@@ -72,5 +72,5 @@ class League
 			return $results;	
 		} catch(PDOException $e) {
 			echo $e;
-		}
+	}
 }

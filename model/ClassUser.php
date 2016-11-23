@@ -1,5 +1,5 @@
 <?php
-require_once (utils/ClassDbhandler.php);
+require_once ('utils/ClassDbhandler.php');
 
 /*
 * The purpose of this class is to provide access to the data for Operations around users (owners)
@@ -146,30 +146,6 @@ class User
 	    }
 	}
 
-	/**
-	* deprecate this if find_owners works
-	* @param $username owner_name
-	* returns object
-	*/
-	public function find_owner_by_name($username){
-		try{
-			$sql = 'SELECT id FROM owner
-					WHERE owner_name
-					LIKE :username';
-			
-			$dbh = new DBHandler();			
-			$stmt = $dbh->getInstance()->prepare($sql);
-
-			$stmt->bindParam(':username', $username, PDO::PARAM_STR); 
-
-			$stmt->execute();
-			$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-			return $results;	
-		} catch(PDOException $e) {
-			echo $e->getMessage();
-            exit;
-		}
-	}
 
 	/**
 	* obtain list of all user records or a specific user record
@@ -298,6 +274,34 @@ class User
 			$stmt = $dbh->getInstance()->prepare($sql);
 			$stmt->bindParam(':owner_id', $id);
 			$stmt->execute();	
+			return true;
+		} catch(PDOException $e) {
+			echo $e->getMessage();
+            exit;
+		}
+	}
+
+
+
+	/**
+	* deprecate this if find_owners works
+	* @param $username owner_name
+	* returns object
+	*/
+	public function find_owner_by_name($username){
+		try{
+			$sql = 'SELECT id FROM owner
+					WHERE owner_name
+					LIKE :username';
+			
+			$dbh = new DBHandler();			
+			$stmt = $dbh->getInstance()->prepare($sql);
+
+			$stmt->bindParam(':username', $username, PDO::PARAM_STR); 
+
+			$stmt->execute();
+			$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			return $results;	
 		} catch(PDOException $e) {
 			echo $e->getMessage();
             exit;
