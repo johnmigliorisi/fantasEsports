@@ -1,5 +1,5 @@
 <?php
-require_once (utils/ClassDbhandler.php);
+require_once ('utils/ClassDbhandler.php');
 
 /*
 * The purpose of this class is to provide access to the data for Operations around Leagues
@@ -57,7 +57,7 @@ class League
 	}
 
 	/**
-	* obtain list of all league records
+	* deprecate if find_leagues works --- obtain list of all league records
 	* returns: object
 	*/
 	public function find_all_leagues(){
@@ -72,5 +72,34 @@ class League
 			return $results;	
 		} catch(PDOException $e) {
 			echo $e;
+		}
 	}
+
+	/**
+	* function find_leagues
+	* returns object
+	*/
+	public function find_leagues($id = null){
+		
+		$sql = 'SELECT * FROM league
+					ORDER BY id';
+		if (is_int($id)) {
+            $sql .= " WHERE id = :id";
+        }
+
+		try{	
+			$dbh = new DBHandler();			
+			$stmt = $dbh->getInstance()->prepare($sql);
+			if (is_int($id)) {
+            	$stmt->bindParam(':id', $id, PDO::PARAM_STR); 
+        	}
+			$stmt->execute();
+			$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			return $results;	
+		} catch(PDOException $e) {
+			echo $e->getMessage();
+            exit;
+		}
+	}
+
 }

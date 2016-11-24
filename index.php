@@ -1,12 +1,14 @@
 <?php
-
-require('controllers/UserController.php');
-require('controllers/TournamentController.php');
+require_once('controllers/UserController.php');
+require_once('controllers/TournamentController.php');
+require_once('controllers/LeagueController.php');
 
 $userObj = new UserController();
 $users = $userObj->find();
 $tournamentObj = new TournamentController();
 $tournaments = $tournamentObj->find();
+$leagueObj = new LeagueController();
+$leagues = $leagueObj->find();
 ?>
 <!DOCTYPE html>
 <html>
@@ -30,16 +32,6 @@ $tournaments = $tournamentObj->find();
 	<p>Sooo, during the 2016 HOC Winter Tournament a group of us were hanging out spectating a match, discussing all manner of important and adult topics, when Hockeyplaya and Nolja hit upon the idea of running a fantasy league based on our UT tournaments. How cool would that be right? We would often have around 20 people spectating matches so why not take it up a notch?</p>
 	<p>Here we will be able to run fantasy leagues across all of our UT communities. We are able to set up tournaments, define the list of participating players and set up leagues based on them. Team owners will be able to draft and manage their teams and play against each other in typical fantasy sports style.</p>
 	<p>For the moment scoring is going to be pretty manual until I figure out how to automate it. Maybe one of the awesome coders out there will help me get that part in place.</p>
-	<?php if ($users): ?>
-        <ul>
-            <?php foreach ($users as $user): ?>
-            <li><a class="edit" href="edit.php?id=<?= $user['id'] ?>">Edit</a> <a class="delete" href="list_users.php?id=<?= $user['id'] ?>">Delete</a> <span><?= $user['owner_name'] ?> </span></li>
-            <?php endforeach; ?>
-            <li><a class="add" href="add.php">Add a user</a></li>
-        </ul>
-    <?php else: ?>
-        <p>No users yet!!</p>
-    <?php endif; ?>
 </article>
 <aside class="flex-main-aside">
 	<div class="aside-card">
@@ -56,11 +48,15 @@ $tournaments = $tournamentObj->find();
 	</div>
 	<div class="aside-card">
 		<h3>Leagues</h3>
-		<ul>
-		<?php foreach ($leagueList as $row) { ?>
-			<li><?php echo $row['name']; ?></li>
-		<?php } ?>
-		</ul>
+		<?php if ($leagues): ?>
+			<ul>
+			<?php foreach ($leagues as $league): ?>
+				<li><?= $league['name'] ?></li>
+			<?php endforeach; ?>
+			</ul>
+		<?php else: ?>
+        	<p>No leagues yet!!</p>
+    	<?php endif; ?>
 	</div>
 </aside>
 </main>
