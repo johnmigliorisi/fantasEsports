@@ -1,5 +1,5 @@
 <?php
-require_once (utils/ClassDbhandler.php);
+require ('utils/ClassDbhandler.php');
 
 /*
 * The purpose of this class is to provide access to the data for CRUD Operations around Tournaments
@@ -13,27 +13,27 @@ class Tournament
     /**
     * @var string
     */
-    private $tournamentname
+    private $tournamentname;
     /**
     * @var timestamp
     */
-    private $startdate
+    private $startdate;
     /**
     * @var timestamp
     */
-    private $enddate
+    private $enddate;
     /**
     * @var string
     */
-    private $format
+    private $format;
     /**
     * @var string
     */
-    private $tournamentadmin
+    private $tournamentadmin;
     /**
     * @var string
     */
-    private $tournamentadminemail
+    private $tournamentadminemail;
 
     /**
 	* creates a new tournament record

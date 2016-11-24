@@ -1,5 +1,5 @@
 <?php
-require_once ('utils/ClassDbhandler.php');
+//require ('utils/ClassDbhandler.php');
 
 /*
 * The purpose of this class is to provide access to the data for Operations around users (owners)

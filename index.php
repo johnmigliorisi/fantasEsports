@@ -1,11 +1,12 @@
 <?php
-require('includes/loader.php');
-
 
 require('controllers/UserController.php');
+require('controllers/TournamentController.php');
 
 $userObj = new UserController();
 $users = $userObj->find();
+$tournamentObj = new TournamentController();
+$tournaments = $tournamentObj->find();
 ?>
 <!DOCTYPE html>
 <html>
@@ -43,11 +44,15 @@ $users = $userObj->find();
 <aside class="flex-main-aside">
 	<div class="aside-card">
 		<h3>Tournaments</h3>
-		<ul>
-		<?php foreach ($tourneyList as $row) { ?>
-			<li><?php echo $row['tournament_name']; ?></li>
-		<?php } ?>
-		</ul>
+		<?php if ($tournaments): ?>
+			<ul>
+			<?php foreach ($tournaments as $tournament): ?>
+				<li><?= $tournament['tournament_name'] ?></li>
+			<?php endforeach; ?>
+			</ul>
+		<?php else: ?>
+        	<p>No tournaments yet!!</p>
+    	<?php endif; ?>
 	</div>
 	<div class="aside-card">
 		<h3>Leagues</h3>
