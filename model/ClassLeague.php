@@ -57,25 +57,6 @@ class League
 	}
 
 	/**
-	* deprecate if find_leagues works --- obtain list of all league records
-	* returns: object
-	*/
-	public function find_all_leagues(){
-		try{
-			$sql = 'SELECT * FROM league
-					ORDER BY id';
-			
-			$dbh = new DBHandler();	
-			$stmt = $dbh->getInstance()->prepare($sql);
-			$stmt->execute();
-			$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-			return $results;	
-		} catch(PDOException $e) {
-			echo $e;
-		}
-	}
-
-	/**
 	* function find_leagues
 	* returns object
 	*/
